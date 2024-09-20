@@ -1,0 +1,52 @@
+RESOURCE_GROUP_NAME=devlabrg
+STORAGE_ACCOUNT_NAME=devlabstg
+STORAGE_CONTAINER_NAME=devlabblob
+LOCATION=SouthEastAsia
+SPN_NAME=demolab-spn
+KV_NAME=devlab-kv002
+
+# Create resource group
+az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
+
+# Create storage account
+az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
+
+# Create blob container
+az storage container create --name $STORAGE_CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
+
+SUBID=$(az account show --query id --output tsv)
+devlabstg_key1=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[0].value" --output tsv)
+devlabstg_key2=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[1].value" --output tsv)
+
+#Create service principal for authentication
+az ad sp create-for-rbac -n $SPN_NAME --role Contributor --scopes subscriptions/$SUBID
+
+SPN_CLIENT_ID=$(az ad sp list --filter "displayName eq '$SPN_NAME'" --query '[0].appId' --output tsv)
+SPN_SECRET="V.B8Q~7fI3RtjsHJPgpkflGA2lp2Rp0NOQ2I-crk"
+TENANTID="055aa570-40ab-4615-bbc9-4c37e859aad2"
+clientid_name=demolab-spn-client-id
+clientsecret=demolab-spn-client-secret
+tenantid=demolab-spn-tenant-id
+key1name="devlabstg-key1"
+key2name="devlabstg-key2"
+
+#### Create Key Vault
+az keyvault create -l $LOCATION --name $KV_NAME --resource-group $RESOURCE_GROUP_NAME --enable-rbac-authorization false
+
+# Set Access Policy
+az keyvault set-policy --name $KV_NAME --spn $SPN_CLIENT_ID --secret-permissions get list
+
+# Create KeyVault Secret keys
+az keyvault secret set --vault-name $KV_NAME --name $clientid_name --value $SPN_CLIENT_ID
+az keyvault secret set --vault-name $KV_NAME --name $clientsecret --value $SPN_SECRET
+az keyvault secret set --vault-name $KV_NAME --name $tenantid --value $TENANTID
+az keyvault secret set --vault-name $KV_NAME --name $key1name --value $devlabstg_key1
+az keyvault secret set --vault-name $KV_NAME --name $key2name --value $devlabstg_key2
+
+
+##command 
+tf init -backend-config="access_key=AnVSMnzZHXGQ7mAnU/ruoOLO0yMHAhZwLiG7NrgyWWIEXHH7dpH+ZwahdvPgbtLqWGHjAyrfoDpH+ASt1wevfQ=="
+
+tf plan -out=tfplan -var="spn-client-id=${SPN_CLIENT_ID}" -var="spn-client-secret=${SPN_SECRET}" -var="spn-tenant-id=${TENANTID}"
+
+
