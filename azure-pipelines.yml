@@ -50,18 +50,19 @@ steps:
      allowTelemetryCollection: false
   
  - task: ArchiveFiles@2
+   displayName: Archive Terraform Plan Files
    inputs:
-    rootFolderOrFile: 'terraform'
+    rootFolderOrFile: 'terraform/tfplan'
     includeRootFolder: false
     archiveType: 'tar'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz'
     replaceExistingArchive: true'
- - task: CmdLine@2
+ 
+ - task: PublishPipelineArtifact@1
+   displayName: Publish Terraform Plan Artifact
    inputs:
-    script: |
-      echo display-BuildDir
-      echo $(Build.BinariesDirectory) 
-      
-      echo display-systemdefault
-      echo$(System.DefaultWorkingDirectory)/
+     targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz'
+     artifact: '$(Build.BuildId)-tfplan.tgz'
+     publishLocation: 'pipeline'
+ 
  
