@@ -1,4 +1,5 @@
 # Starter pipeline
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -20,9 +21,18 @@ variables:
 - group: devlab-kv002-vars
 
 steps:
-- task
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+ - task: TerraformInstaller@0
+   displayName: Install Terraform 0.14.6
+   inputs:
+     terraformVersion: '0.14.6'
+
+  - task: TerraformCLI@2
+    displayName: Terraform Init
+    inputs:
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+      commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
+      allowTelemetryCollection: true
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
