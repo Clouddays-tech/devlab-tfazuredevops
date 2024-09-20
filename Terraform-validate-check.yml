@@ -11,11 +11,10 @@ steps:
    inputs:
      terraformVersion: '0.14.6'
 
- - task: TerraformCLI@2
+ - task: CmdLine@2
+   displayName: Terraform Fmt
    inputs:
-    command: 'fmt'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-    allowTelemetryCollection: false
+     script: 'terraform fmt -recursive'
 
  - task: TerraformCLI@2
    displayName: Terraform Init
