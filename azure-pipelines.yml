@@ -46,7 +46,7 @@ steps:
    inputs:
      command: 'plan'
      workingDirectory: 'terraform'
-     commandOptions: '-input=false -out=tfplan -var="spn-client-id=${demolab-spn-client-id}" -var="spn-client-secret=${demolab-spn-client-secret}" -var="spn-tenant-id=${demolab-spn-tenant-id}"'
+     commandOptions: '-input=false -out=tfplan -var="spn-client-id=$(demolab-spn-client-id)" -var="spn-client-secret=$(demolab-spn-client-secret)" -var="spn-tenant-id=$(demolab-spn-tenant-id)"'
      allowTelemetryCollection: false
   
  - task: ArchiveFiles@2
