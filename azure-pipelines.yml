@@ -32,9 +32,37 @@ steps:
       command: 'init'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
-      allowTelemetryCollection: true
+      allowTelemetryCollection: false
 
- - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-   displayName: 'Run a multi-line script'
+ - task: TerraformCLI@2
+   displayName: Terraform Validate
+   inputs:
+     command: 'validate'
+     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+     allowTelemetryCollection: true
+
+ - task: TerraformCLI@2
+   displayName: Terraform Plan
+   inputs:
+     command: 'plan'
+     workingDirectory: 'terraform'
+     commandOptions: '-input=false -out=tfplan -var="spn-client-id=${demolab-spn-client-id}" -var="spn-client-secret=${demolab-spn-client-secret}" -var="spn-tenant-id=${demolab-spn-tenant-id}"'
+     allowTelemetryCollection: false
+  
+ - task: ArchiveFiles@2
+   displayName: Archive Terraform plan file
+   inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/terraform'
+    includeRootFolder: true
+    archiveType: 'tar'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz'
+    replaceExistingArchive: true
+ - task: CmdLine@2
+   inputs:
+    script: |
+      echo display-BuildDir
+      echo $(Build.BinariesDirectory) 
+      
+      echo display-systemdefault
+      echo$(System.DefaultWorkingDirectory)/
+ 
