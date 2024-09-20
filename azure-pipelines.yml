@@ -50,13 +50,12 @@ steps:
      allowTelemetryCollection: false
   
  - task: ArchiveFiles@2
-   displayName: Archive Terraform plan file
    inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/terraform'
-    includeRootFolder: true
+    rootFolderOrFile: '$(Build.BinariesDirectory)/terraform/tfplan'
+    includeRootFolder: false
     archiveType: 'tar'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz'
-    replaceExistingArchive: true
+    replaceExistingArchive: true'
  - task: CmdLine@2
    inputs:
     script: |
