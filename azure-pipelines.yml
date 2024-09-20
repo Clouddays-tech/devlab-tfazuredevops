@@ -15,7 +15,7 @@ trigger:
 
 
 pool:
-  vmImage: Azure Pipelines
+  name: Azure Pipelines
 
 variables:
 - group: devlab-kv002-vars
