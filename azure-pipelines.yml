@@ -26,15 +26,15 @@ steps:
    inputs:
      terraformVersion: '0.14.6'
 
-  - task: TerraformCLI@2
-    displayName: Terraform Init
-    inputs:
+ - task: TerraformCLI@2
+   displayName: Terraform Init
+   inputs:
       command: 'init'
       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
       commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
       allowTelemetryCollection: true
 
-- script: |
+ - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+   displayName: 'Run a multi-line script'
