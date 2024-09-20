@@ -1,0 +1,55 @@
+[33mcommit dd48956a171634c08d39d58a7d29542a8e948401[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 15:40:46 2024 +0800
+
+    Update azure-pipelines.yml for Azure Pipelines
+
+[33mcommit 279e0815db4ebbce7bd560f6a3129c03f4282762[m
+Author: clouddays <clouddays.info@gmail.com>
+Date:   Fri Sep 20 15:21:40 2024 +0800
+
+    restructure terraform folder
+
+[33mcommit 9130a77d81c6ff9f23e35234be547f5dddf234c3[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 15:15:45 2024 +0800
+
+    Update azure-pipelines.yml for Azure Pipelines
+
+[33mcommit 0c67f0ae6edd4d26291d6281ca3b5b8cc361d708[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 15:12:21 2024 +0800
+
+    Update azure-pipelines.yml for Azure Pipelines
+
+[33mcommit fb506873b47f0a25c811ad4a6180d209f9c378db[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 15:10:47 2024 +0800
+
+    second test
+
+[33mcommit b92cef02ed073fe8fbb092760f97329c32467970[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 14:59:10 2024 +0800
+
+    initial_azurepipeline
+    
+    [skip ci]
+
+[33mcommit 10c35ff89887a14152ab479ccb05ee984f3324ad[m
+Author: clouddays <clouddays.info@gmail.com>
+Date:   Fri Sep 20 12:48:34 2024 +0800
+
+    second
+
+[33mcommit 8e0258a06df56f00034409b411f0a74fda7b4b7d[m
+Author: clouddays <clouddays.info@gmail.com>
+Date:   Fri Sep 20 12:42:17 2024 +0800
+
+    initial commit
+
+[33mcommit 2c209c3de9a65e0ae4d0660c5c9ed842c3301dc1[m
+Author: Clouddays-tech <clouddays.info@gmail.com>
+Date:   Fri Sep 20 12:28:02 2024 +0800
+
+    Initial commit
