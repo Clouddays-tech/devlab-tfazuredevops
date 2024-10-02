@@ -17,7 +17,6 @@ pool:
   name: Azure Pipelines
 
 steps:
-
 - task: DownloadBuildArtifacts@1
   inputs:
     buildType: 'specific'
@@ -37,7 +36,7 @@ steps:
       find . -name *.gz -maxdepth 3
 
 - task: Bash@3
-  displayName: 'Capture Plan Pipeline Build ID'
+  displayName: 'Capture Plan Pipeline Build-ID'
   inputs:
     targetType: 'inline'
     script: |
@@ -45,7 +44,10 @@ steps:
       fileName=$(ls $(System.ArtifactsDirectory)/*-tfplan.tgz)
       
       # Extract the build ID by removing the '-tfplan.tgz' suffix from the filename
-      PlanBuildId=$(basename $fileName -tfplan.tgz)
+      BuildId=$(basename $fileName -tfplan.tgz)
+
+      # Set the PlanBuildId variable for later tasks
+      echo "##vso[task.setvariable variable=PlanBuildId]$buildId"
       echo "Plan Build ID: $PlanBuildId"
       
 - task: ExtractFiles@1
@@ -55,14 +57,6 @@ steps:
     destinationFolder: '$(System.DefaultWorkingDirectory)/'
     cleanDestinationFolder: false
     overwriteExistingFiles: false
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -al /home/vsts/work/1/a/
-      find /home/vsts/work/1/a/ -maxdepth 3
-      find . -name *.gz -maxdepth 3
       
 # - task: ManualValidation@1
 #   inputs:
