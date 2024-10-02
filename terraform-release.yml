@@ -55,8 +55,10 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      ls -al 
-      find . -maxdepth 2
+      pwd
+      ls -al /home/vsts/work/1/a/
+      find /home/vsts/work/1/a/ -maxdepth 3
+      find . -name *.gz -maxdepth 3
       
 # - task: ManualValidation@1
 #   inputs:
