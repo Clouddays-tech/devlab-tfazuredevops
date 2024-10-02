@@ -40,8 +40,10 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
+      pwd
       ls -al 
-      find . -maxdepth 2
+      find . -maxdepth 3
+      find . -name *.gz -maxdepth 3
 - task: ExtractFiles@1
   displayName: ExtractFiles
   inputs:
