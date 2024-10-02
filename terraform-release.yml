@@ -20,7 +20,7 @@ steps:
 - task: ExtractFiles@1
   displayName: ExtractFiles
   inputs:
-    archiveFilePatterns: '$(System.ArtifactsDirectory)/_Terraform Plan/$(Build.BuildId)-tfplan.tgz'
+    archiveFilePatterns: '$(System.ArtifactsDirectory)/_Terraform Plan/$(Build.BuildId)-tfplan.tgz/$(Build.BuildId)-tfplan.tgz'
     destinationFolder: '$(System.DefaultWorkingDirectory)/'
     cleanDestinationFolder: false
     overwriteExistingFiles: false
