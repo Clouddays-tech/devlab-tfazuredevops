@@ -6,3 +6,4 @@ resource "azurerm_resource_group" "rg" {
 ##This is testing at 2 Oct 2024
 ## Testing complete validate and plan pipelines..1234567
 #testing123
+## Hello World
