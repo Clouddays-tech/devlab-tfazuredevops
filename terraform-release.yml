@@ -24,10 +24,10 @@ steps:
     cleanDestinationFolder: false
     overwriteExistingFiles: false
 
-- task: ManualValidation@1
-  inputs:
-    notifyUsers: 'clouddays.info@gmail.com'
-    instructions: 'Please review the Terraform plan and approve to apply in Production.'
+# - task: ManualValidation@1
+#   inputs:
+#     notifyUsers: 'clouddays.info@gmail.com'
+#     instructions: 'Please review the Terraform plan and approve to apply in Production.'
 
 - task: TerraformInstaller@2
   displayName: Install Terraform 0.14.6
