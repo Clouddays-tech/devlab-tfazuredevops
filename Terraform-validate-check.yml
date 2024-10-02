@@ -13,9 +13,9 @@ steps:
      terraformVersion: '0.14.6'
 
  - task: CmdLine@2
-   displayName: Terraform Fmt
+   displayName: Terraform Format Check
    inputs:
-     script: 'terraform fmt -recursive'
+     script: 'terraform fmt -check -recursive'
 
  - task: TerraformCLI@2
    displayName: Terraform Init
