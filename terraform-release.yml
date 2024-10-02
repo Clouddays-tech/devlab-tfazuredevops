@@ -44,10 +44,11 @@ steps:
       fileName=$(ls $(System.ArtifactsDirectory)/*-tfplan.tgz)
       
       # Extract the build ID by removing the '-tfplan.tgz' suffix from the filename
-      BuildId=$(basename $fileName -tfplan.tgz)
+      buildId=$(basename $fileName -tfplan.tgz)
 
       # Set the PlanBuildId variable for later tasks
       echo "##vso[task.setvariable variable=PlanBuildId]$buildId"
+      echo "Build ID: $buildId"
       echo "Plan Build ID: $PlanBuildId"
       
 - task: ExtractFiles@1
