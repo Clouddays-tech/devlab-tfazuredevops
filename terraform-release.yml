@@ -24,20 +24,17 @@ steps:
     cleanDestinationFolder: false
     overwriteExistingFiles: false
 
-- task: ManualValidation@0
+- task: ManualValidation@1
   inputs:
     notifyUsers: 'clouddays.info@gmail.com'
-    instructions: |
-      Please review the Terraform plan and approve to apply in Production.
-    onTimeout: 'reject' 
-  timeoutInMinutes: 60
+    instructions: 'Please review the Terraform plan and approve to apply in Production.'
 
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+- task: TerraformInstaller@2
   displayName: Install Terraform 0.14.6
   inputs:
-    terraformVersion: 0.14.6
+    terraformVersion: '0.14.6'
 
-- task: UseTerraformCLI@0
+- task: TerraformCLI@2
   displayName: Terraform Init
   inputs:
     command: 'init'
@@ -45,9 +42,9 @@ steps:
     commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
     allowTelemetryCollection: false
 
-- task: UseTerraformCLI@0
-  displayName: Terraform Apply
+- task: TerraformCLI@2
   inputs:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
     commandOptions: '-auto-approve -input=false tfplan'
+    allowTelemetryCollection: false
