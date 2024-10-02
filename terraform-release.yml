@@ -77,6 +77,13 @@ steps:
     commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
     allowTelemetryCollection: false
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      pwd
+      ls -alth 
+ 
+
 - task: TerraformCLI@2
   inputs:
     command: 'apply'
