@@ -1,4 +1,5 @@
 trigger: none  # No automatic trigger from code changes
+pr: none
 
 resources:
   pipelines:
