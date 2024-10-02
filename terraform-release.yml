@@ -17,6 +17,22 @@ pool:
   name: Azure Pipelines
 
 steps:
+
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: '7300f65c-69b6-428a-be7e-87b7895dc991'
+    definition: '8'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
+    artifactName: '$(Build.BuildId)-tfplan.tgz'
+    targetPath: '$(Pipeline.Workspace)'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      ls -al 
+      find . -maxdepth 2
 - task: ExtractFiles@1
   displayName: ExtractFiles
   inputs:
@@ -25,6 +41,12 @@ steps:
     cleanDestinationFolder: false
     overwriteExistingFiles: false
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      ls -al 
+      find . -maxdepth 2
+      
 # - task: ManualValidation@1
 #   inputs:
 #     notifyUsers: 'clouddays.info@gmail.com'
