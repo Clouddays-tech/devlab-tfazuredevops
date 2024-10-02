@@ -1,6 +1,6 @@
 ## Added PR triggered to none...
 
-# pr: none
+pr: none
 
 trigger:
   branches:
