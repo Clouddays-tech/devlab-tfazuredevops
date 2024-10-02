@@ -18,6 +18,15 @@ pool:
 
 steps:
 
+- task: DownloadBuildArtifacts@1
+  inputs:
+    buildType: 'specific'
+    project: '7300f65c-69b6-428a-be7e-87b7895dc991'
+    pipeline: '8'
+    specificBuildWithTriggering: true
+    buildVersionToDownload: 'latest'
+    downloadType: 'single'
+    downloadPath: '$(System.ArtifactsDirectory)'
 - task: DownloadPipelineArtifact@2
   inputs:
     buildType: 'specific'
