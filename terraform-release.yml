@@ -27,13 +27,13 @@ steps:
     downloadType: 'single'
     downloadPath: '$(System.ArtifactsDirectory)'
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -al /home/vsts/work/1/a/
-      find /home/vsts/work/1/a/ -maxdepth 3
-      find . -name *.gz -maxdepth 3
+# - task: CmdLine@2
+#   inputs:
+#     script: |
+#       pwd
+#       ls -al /home/vsts/work/1/a/
+#       find /home/vsts/work/1/a/ -maxdepth 3
+#       find . -name *.gz -maxdepth 3
 
 - task: Bash@3
   displayName: 'Capture Plan Pipeline Build-ID'
