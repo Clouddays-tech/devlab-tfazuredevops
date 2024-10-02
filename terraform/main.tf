@@ -4,3 +4,4 @@ resource "azurerm_resource_group" "rg" {
 }
 
 # Complete Pipeline trigger
+# Final test
