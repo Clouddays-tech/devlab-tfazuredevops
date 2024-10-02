@@ -3,4 +3,4 @@ resource "azurerm_resource_group" "rg" {
   location = "southeastasia"
 }
 
-##This is testing
+##This is testing at 2 Oct 2024
