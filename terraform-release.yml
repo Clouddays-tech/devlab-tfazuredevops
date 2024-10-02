@@ -1,0 +1,53 @@
+trigger: none  # No automatic trigger from code changes
+
+resources:
+  pipelines:
+    - pipeline: 'Terraform-Plan-Out'  # Alias for the pipeline you depend on
+      source: 'Terraform-Plan-Out'  # Name of the build pipeline to depend on
+      trigger:
+        branches:
+          include:
+            - main  # Trigger this pipeline when the 'main' branch is built in the build pipeline
+
+variables:
+- group: devlab-kv002-vars
+
+pool:
+name: Azure Pipelines
+
+steps:
+- task: ExtractFiles@1
+  displayName: ExtractFiles
+  inputs:
+  archiveFilePatterns: '$(System.ArtifactsDirectory)/_Terraform Plan/$(Build.BuildId)-tfplan.tgz'
+  destinationFolder: '$(System.DefaultWorkingDirectory)/'
+  cleanDestinationFolder: false
+  overwriteExistingFiles: false
+
+- task: ManualValidation@0
+  inputs:
+    notifyUsers: 'clouddays.info@gmail.com'
+    instructions: |
+      Please review the Terraform plan and approve to apply in Production.
+    onTimeout: 'reject' 
+  timeoutInMinutes: 60
+
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+  displayName: Install Terraform 0.14.6
+  inputs:
+    terraformVersion: 0.14.6
+
+- task: UseTerraformCLI@0
+  displayName: Terraform Init
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
+    allowTelemetryCollection: false
+
+- task: UseTerraformCLI@0
+  displayName: Terraform Apply
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-auto-approve -input=false tfplan'
