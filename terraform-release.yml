@@ -35,10 +35,23 @@ steps:
       ls -al /home/vsts/work/1/a/
       find /home/vsts/work/1/a/ -maxdepth 3
       find . -name *.gz -maxdepth 3
+
+- task: Bash@3
+  displayName: 'Capture Plan Pipeline Build ID'
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Find the file that matches the pattern '*-tfplan.tgz'
+      fileName=$(ls $(System.ArtifactsDirectory)/*-tfplan.tgz)
+      
+      # Extract the build ID by removing the '-tfplan.tgz' suffix from the filename
+      PlanBuildId=$(basename $fileName -tfplan.tgz)
+      echo "Plan Build ID: $PlanBuildId"
+      
 - task: ExtractFiles@1
   displayName: ExtractFiles
   inputs:
-    archiveFilePatterns: '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan.tgz'
+    archiveFilePatterns: '$(System.ArtifactsDirectory)/$(PlanBuildId)-tfplan.tgz'
     destinationFolder: '$(System.DefaultWorkingDirectory)/'
     cleanDestinationFolder: false
     overwriteExistingFiles: false
