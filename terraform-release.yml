@@ -73,13 +73,20 @@ steps:
   displayName: Terraform Init
   inputs:
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/'
     commandOptions: '-backend-config="access_key=$(devlabstg-key1)"'
     allowTelemetryCollection: false
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      pwd
+      ls -alth 
+ 
 
 - task: TerraformCLI@2
   inputs:
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/'
     commandOptions: '-auto-approve -input=false tfplan'
     allowTelemetryCollection: false
