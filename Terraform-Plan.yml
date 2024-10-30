@@ -15,7 +15,7 @@ pool:
   name: Azure Pipelines
 
 variables:
-- group: devlab-kv002-vars
+- group: devops-kvlt002-vars
 
 steps:
  - task: TerraformInstaller@0

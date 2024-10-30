@@ -11,7 +11,7 @@ resources:
             - main  # Trigger this pipeline when the 'main' branch is built in the build pipeline
 
 variables:
-- group: devlab-kv002-vars
+- group: devops-kvlt002-vars
 
 pool:
   name: Azure Pipelines
