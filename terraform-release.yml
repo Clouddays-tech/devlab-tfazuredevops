@@ -61,7 +61,7 @@ steps:
       
 # - task: ManualValidation@1
 #   inputs:
-#     notifyUsers: 'clouddays.info@gmail.com'
+#     notifyUsers: 'cloudxxxx@gmail.com'
 #     instructions: 'Please review the Terraform plan and approve to apply in Production.'
 
 - task: TerraformInstaller@2

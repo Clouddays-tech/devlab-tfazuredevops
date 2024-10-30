@@ -14,3 +14,8 @@ variable "spn-tenant-id" {
 variable "subscription_id" {
   type = string
 }
+
+variable "default_location" {
+  type = string
+  default = "EastUS"
+}

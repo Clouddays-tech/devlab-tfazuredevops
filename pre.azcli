@@ -1,9 +1,9 @@
-RESOURCE_GROUP_NAME=devlabrg
-STORAGE_ACCOUNT_NAME=devlabstg
-STORAGE_CONTAINER_NAME=devlabblob
-LOCATION=SouthEastAsia
-SPN_NAME=demolab-spn
-KV_NAME=devlab-kv002
+RESOURCE_GROUP_NAME=devop-rsg
+STORAGE_ACCOUNT_NAME=devopsstgacc
+STORAGE_CONTAINER_NAME=devops-blob
+LOCATION=EastUS
+SPN_NAME=devops-spn002
+KV_NAME=devops-kv002
 
 # Create resource group
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
@@ -14,19 +14,24 @@ az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_
 # Create blob container
 az storage container create --name $STORAGE_CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 
+# Query the Storage account key
 SUBID=$(az account show --query id --output tsv)
 devlabstg_key1=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[0].value" --output tsv)
 devlabstg_key2=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[1].value" --output tsv)
 
 #Create service principal for authentication
-az ad sp create-for-rbac -n $SPN_NAME --role Contributor --scopes subscriptions/$SUBID
+SPN=$(az ad sp create-for-rbac -n $SPN_NAME --role Contributor --scopes subscriptions/$SUBID -o json)
+
+echo $SPN | jq
+echo $SPN | jq -r '.appId'
+
 
 SPN_CLIENT_ID=$(az ad sp list --filter "displayName eq '$SPN_NAME'" --query '[0].appId' --output tsv)
-SPN_SECRET="V.B8Q~7fI3RtjsHJPgpkflGA2lp2Rp0NOQ2I-crk"
-TENANTID="055aa570-40ab-4615-bbc9-4c37e859aad2"
-clientid_name=demolab-spn-client-id
-clientsecret=demolab-spn-client-secret
-tenantid=demolab-spn-tenant-id
+SPN_SECRET=$(echo $SPN | jq -r '.password')
+TENANTID=$(echo $SPN | jq -r '.tenant')
+clientid_name="spn-client-id"
+clientsecret="spn-client-secret"
+tenantid="spn-tenant-id"
 key1name="devlabstg-key1"
 key2name="devlabstg-key2"
 
@@ -45,7 +50,7 @@ az keyvault secret set --vault-name $KV_NAME --name $key2name --value $devlabstg
 
 
 ##command 
-tf init -backend-config="access_key=AnVSMnzZHXGQ7mAnU/ruoOLO0yMHAhZwLiG7NrgyWWIEXHH7dpH+ZwahdvPgbtLqWGHjAyrfoDpH+ASt1wevfQ=="
+tf init -backend-config="access_key=${devlabstg_key1}"
 
 tf plan -out=tfplan -var="spn-client-id=${SPN_CLIENT_ID}" -var="spn-client-secret=${SPN_SECRET}" -var="spn-tenant-id=${TENANTID}"
 
