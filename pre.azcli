@@ -1,9 +1,10 @@
+
 RESOURCE_GROUP_NAME=devop-rsg
 STORAGE_ACCOUNT_NAME=devopsstgacc
 STORAGE_CONTAINER_NAME=devops-blob
 LOCATION=EastUS
 SPN_NAME=devops-spn002
-KV_NAME=devops-kv002
+KV_NAME=devops-kvlt002
 
 # Create resource group
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
@@ -47,11 +48,14 @@ az keyvault secret set --vault-name $KV_NAME --name $clientsecret --value $SPN_S
 az keyvault secret set --vault-name $KV_NAME --name $tenantid --value $TENANTID
 az keyvault secret set --vault-name $KV_NAME --name $key1name --value $devlabstg_key1
 az keyvault secret set --vault-name $KV_NAME --name $key2name --value $devlabstg_key2
+az keyvault secret set --vault-name $KV_NAME --name sub-id --value $SUBID
 
 
 ##command 
 tf init -backend-config="access_key=${devlabstg_key1}"
 
-tf plan -out=tfplan -var="spn-client-id=${SPN_CLIENT_ID}" -var="spn-client-secret=${SPN_SECRET}" -var="spn-tenant-id=${TENANTID}"
+tf plan -out=tfplan -var="spn-client-id=${SPN_CLIENT_ID}" -var="spn-client-secret=${SPN_SECRET}" -var="spn-tenant-id=${TENANTID}" -var="subscription_id=${SUBID}"
+
+tf apply tfplan
 
 
