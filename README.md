@@ -1,7 +1,7 @@
 
 # Terraform with Azure Devopspipeline
 
-This lab will guide you through the creation of Azure resources. This is using bash with Azure CLI installed. Azure Cloud bash shell can also be used to complete this lab.
+This lab will guide you through the creation of Azure resources. This is using bash with Azure CLI installed. Azure Cloud bash shell can also be used to complete this lab. Azure Resource group, storage account , key vault will be created and stored service principal cliend id, secret key, tenant id , storage account access key on the key vault as the secret values. 
 
 ## Pre-requisities
 
@@ -13,6 +13,9 @@ This lab will guide you through the creation of Azure resources. This is using b
 
 Create resource group, storage account and blob container to store the Terraform backend state file. 
 Storage account access key will require to retrieve/read the terraform backend file.
+
+First login to Azure Cloud, type `az login`
+
 
 ```bash
 
@@ -35,7 +38,7 @@ az storage container create --name $STORAGE_CONTAINER_NAME --account-name $STORA
 
 ## Storage account access key is required to access storage account key/secrets.
 
-# Query the Storage account key
+# Query the Storage account keys
 SUBID=$(az account show --query id --output tsv)
 devlabstg_key1=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[0].value" --output tsv)
 devlabstg_key2=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query "[1].value" --output tsv)
@@ -44,16 +47,31 @@ devlabstg_key2=$(az storage account keys list --resource-group $RESOURCE_GROUP_N
 Create Azure AD service principal and assign contibutor role to subscription scope. 
 You may want to assign more restricted resources like Azure resource group
 
-`
+```
 # Create service principal for authentication
 SPN=$(az ad sp create-for-rbac -n $SPN_NAME --role Contributor --scopes subscriptions/$SUBID -o json)
-`
+```
+
 View the stored environment variable of SPN client id and secret.
 
-`
+```
 echo $SPN | jq
 echo $SPN | jq -r '.appId'
-`
+```
+
+Then, set the variables again for Azure keyvault secret keys. 
+
+```
+# Set Variables
+SPN_CLIENT_ID=$(az ad sp list --filter "displayName eq '$SPN_NAME'" --query '[0].appId' --output tsv)
+SPN_SECRET=$(echo $SPN | jq -r '.password')
+TENANTID=$(echo $SPN | jq -r '.tenant')
+clientid_name="spn-client-id"
+clientsecret="spn-client-secret"
+tenantid="spn-tenant-id"
+key1name="devlabstg-key1"
+key2name="devlabstg-key2"
+```
 
 
 
