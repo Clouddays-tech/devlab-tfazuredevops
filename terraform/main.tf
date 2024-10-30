@@ -3,3 +3,5 @@ resource "azurerm_resource_group" "rg" {
   location = var.default_location
 }
 
+# testing
+
