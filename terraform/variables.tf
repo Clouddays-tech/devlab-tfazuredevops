@@ -16,6 +16,6 @@ variable "subscription_id" {
 }
 
 variable "default_location" {
-  type = string
+  type    = string
   default = "EastUS"
 }
