@@ -3,8 +3,8 @@ pr: none
 
 resources:
   pipelines:
-    - pipeline: 'Terraform-Plan-Out'  # Alias for the pipeline you depend on
-      source: 'Terraform-Plan-Out'  # Name of the build pipeline to depend on
+    - pipeline: 'Tfplan-Out'  # Alias for the pipeline you depend on
+      source: 'Tfplan-Out'  # Name of the build pipeline to depend on
       trigger:
         branches:
           include:
@@ -17,11 +17,12 @@ pool:
   name: Azure Pipelines
 
 steps:
+
 - task: DownloadBuildArtifacts@1
   inputs:
     buildType: 'specific'
     project: '7300f65c-69b6-428a-be7e-87b7895dc991'
-    pipeline: '8'
+    pipeline: '11'
     specificBuildWithTriggering: true
     buildVersionToDownload: 'latest'
     downloadType: 'single'
