@@ -59,3 +59,4 @@ tf plan -out=tfplan -var="spn-client-id=${SPN_CLIENT_ID}" -var="spn-client-secre
 tf apply tfplan
 
 # Testing Branch policy
+
